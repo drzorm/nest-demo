@@ -73,6 +73,7 @@
     "@typescript-eslint/parser": "4.1.1",
     "cross-env": "^7.0.2",
     "eslint": "7.9.0",
+    "eslint-config-alloy": "^3.8.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.22.0",
     "husky": "^4.3.0",
