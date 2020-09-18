@@ -5,9 +5,10 @@
 /yarn.lock
 /package-lock.json
 
-
+# ide
 .idea/
-.vscode/
+# .vscode/
+
 node_modules/
 build/
 dist/
