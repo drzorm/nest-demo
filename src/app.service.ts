@@ -5,7 +5,7 @@ import { ConfigService } from '@nestjs/config';
 export class AppService {
   constructor(private configService: ConfigService) {}
 
-  getHello(): string {
-    return `Hello World - ${this.configService.get('ENV')}`;
+  getEnv(): string {
+    return `${process.env.BIZ_ENV} - ${this.configService.get('PORT')}`;
   }
 }
