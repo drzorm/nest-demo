@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
+import { UploadModule } from './upload/upload.module';
 
 ConfigModule.forRoot({
   envFilePath: [`.env.${process.env.BIZ_ENV}`, '.env'],
@@ -23,6 +24,7 @@ ConfigModule.forRoot({
       migrations: [`${__dirname}/**/*.migration.{js,ts}`],
       subscribers: [`${__dirname}/**/*.subscriber.{js,ts}`],
     }),
+    UploadModule,
   ],
   controllers: [AppController],
   providers: [AppService],
