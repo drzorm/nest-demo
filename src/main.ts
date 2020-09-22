@@ -1,10 +1,9 @@
 import 'reflect-metadata';
 
 import * as compression from 'compression';
-// import * as csurf from 'csurf';
+import * as csurf from 'csurf';
 import * as rateLimit from 'express-rate-limit';
 
-// import * as express from 'express';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
@@ -19,13 +18,6 @@ async function bootstrap() {
   // compression - gzip压缩
   app.use(compression());
 
-  // csurf - 跨站点请求伪造
-  // app.use(csurf());
-
-  //  cors - 跨源资源共享
-  // https://github.com/expressjs/cors#configuration-options
-  app.enableCors();
-
   // express-rate-limit - 限速, 防止暴力攻击
   app.use(
     rateLimit({
@@ -34,13 +26,28 @@ async function bootstrap() {
     }),
   );
 
-  // Swagger 文档
-  const options = new DocumentBuilder()
-    .setTitle('Api Docs')
-    .setDescription('The API description')
-    .setVersion('1.0')
-    .build();
-  SwaggerModule.setup('docs', app, SwaggerModule.createDocument(app, options));
+  if (process.env.BIZ_ENV !== 'prod') {
+    // 非生产环境
+
+    // csurf - 跨站点请求伪造
+    app.use(csurf());
+
+    //  cors - 跨源资源共享
+    // https://github.com/expressjs/cors#configuration-options
+    app.enableCors();
+
+    // Swagger 文档
+    const options = new DocumentBuilder()
+      .setTitle('Api Docs')
+      .setDescription('The API description')
+      .setVersion('1.0')
+      .build();
+    SwaggerModule.setup(
+      'docs',
+      app,
+      SwaggerModule.createDocument(app, options),
+    );
+  }
 
   await app.listen(process.env.PORT);
 }
