@@ -27,10 +27,7 @@ export class UserController {
   }
 
   @Put(':id')
-  updateUser(
-    @Param('id') id: number,
-    @Body() body: any,
-  ): Promise<UpdateResult> {
+  updateUser(@Param('id') id: number, @Body() body: any): Promise<UpdateResult> {
     return this.userService.update({ id, ...body });
   }
 

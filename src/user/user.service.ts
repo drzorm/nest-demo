@@ -11,8 +11,8 @@ export class UserService {
   }
 
   async find(id: number): Promise<any> {
-    const result = await User.find({ id });
-    return result[0];
+    const result = await User.findOne({ id });
+    return result;
   }
 
   async create(user: User): Promise<User> {
