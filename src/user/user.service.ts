@@ -2,6 +2,7 @@ import { DeleteResult, UpdateResult } from 'typeorm';
 
 import { Injectable } from '@nestjs/common';
 
+import { CreateUserDto } from './user.dto';
 import { User } from './user.entity';
 
 @Injectable()
@@ -15,8 +16,8 @@ export class UserService {
     return result;
   }
 
-  async create(user: User): Promise<User> {
-    return await User.save(user);
+  async create(user: CreateUserDto): Promise<User> {
+    return await User.create(user);
   }
 
   async update(user: User): Promise<UpdateResult> {

@@ -5,20 +5,17 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "pwa-node",
-      "request": "launch",
       "name": "start",
-      "runtimeExecutable": "npm",
+      "request": "launch",
       "runtimeArgs": [
+        "run-script",
         "start"
       ],
+      "runtimeExecutable": "npm",
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "resolveSourceMapLocations": [
-        "${workspaceFolder}/**",
-        "!**/node_modules/**"
-      ]
+      "type": "pwa-node"
     },
   ]
 }

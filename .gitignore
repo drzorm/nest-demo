@@ -15,3 +15,7 @@ dist/
 tmp/
 temp/
 .cache/
+
+
+# env config
+# .env.local

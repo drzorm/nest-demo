@@ -1,5 +1,5 @@
 /* eslint-disable spaced-comment */
-type BIZ_ENV = 'dev' | 'test' | 'prod';
+type BIZ_ENV = 'local' | 'dev' | 'test' | 'prod';
 
 declare namespace NodeJS {
   export interface ProcessEnv {
