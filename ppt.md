@@ -6,12 +6,9 @@
 
 Nest 是一个用于构建高效，可扩展的 Node.js 服务器端应用程序的框架, 基于 TypeScript 开发的, 对 TypeScrpt 支持非常好。
 
-Nest 是基于[装饰器(decorators)](https://github.com/tc39/proposal-decorators)语言特性而创建的。 这个既是优点也是缺点, 优点是通过装饰器对常用代码抽象后, 代码更简洁; 缺点就是装饰器语法提案还没有定案, 如果装饰器语法有变动, Nest框架可能也要重写吧。
+Nest 是基于[装饰器(decorators)](https://github.com/tc39/proposal-decorators)语言特性而创建的。 这个既是优点也是缺点, 优点是通过装饰器对常用代码抽象后, 代码更加简洁; 缺点就是装饰器语法提案还没有定案, 如果装饰器语法有变动, Nest框架可能也要重写。
 
-Nest 框架底层 HTTP 平台默认是基于 Express 实现的。Nest 在这些框架之上提供了一定程度的抽象，同时也将其 API 直接暴露给开发人员。这样可以轻松使用基于 Express 开发的第三方模块。
-
-Nest 框架底层 HTTP 平台支持：Express 和 Fastify
-
+Nest 框架底层 HTTP 平台支持：Express 和 Fastify, 默认是基于 Express 实现的。Nest 在这些框架之上提供了一定程度的抽象，同时也将其 API 直接暴露给开发人员。这样可以轻松使用基于 Express 开发的第三方模块。
 
 ### 环境
 
@@ -114,7 +111,6 @@ nest g mi logger
 
 ![Exception filters](https://docs.nestjs.com/assets/Filter_1.png)
 
-
 ```bash
 # 使用 CLI 快速创建 filters
 nest g filters http-exception
@@ -128,7 +124,7 @@ nest g f http-exception
 
 管道是具有 @Injectable() 装饰器的类。管道应实现 PipeTransform 接口。
 
-![Exception filters](https://docs.nestjs.com/assets/Pipe_1.png)
+![Pipes](https://docs.nestjs.com/assets/Pipe_1.png)
 
 管道有两个类型:
 
@@ -136,6 +132,14 @@ nest g f http-exception
 * 验证：对输入数据进行验证，如果验证成功继续传递; 验证失败则抛出异常;
 
 在这两种情况下, 管道 参数(arguments) 会由 控制器(controllers)的路由处理程序 进行处理. Nest 会在调用这个方法之前插入一个管道，管道会先拦截方法的调用参数,进行转换或是验证处理，然后用转换好或是验证好的参数调用原方法
+
+```bash
+# 使用 CLI 快速创建 pipe
+nest g pipe validate
+
+# 简写
+nest g pi validate
+```
 
 ## 守卫(Guards)
 
@@ -145,6 +149,13 @@ nest g f http-exception
 
 守卫有一个单独的责任。它们根据运行时出现的某些条件（例如权限，角色，访问控制列表等）来确定给定的请求是否由路由处理程序处理。 这通常称为授权。在传统的 Express 应用程序中，通常由中间件处理授权。中间件是身份验证的良好选择。到目前为止，访问限制逻辑大多在中间件内。这样很好，因为诸如 token 验证或将 request 对象附加属性与特定路由没有强关联。
 
+```bash
+# 使用 CLI 快速创建 guard
+nest g guard auth
+
+# 简写
+nest g gu auth
+```
 
 ## 拦截器(Interceptors)
 
@@ -159,3 +170,14 @@ nest g f http-exception
 * 转换从函数抛出的异常
 * 扩展基本函数行为
 * 根据所选条件完全重写函数 (例如, 缓存目的)
+
+```bash
+# 使用 CLI 快速创建 interceptor
+nest g interceptor logging
+
+# 简写
+nest g gu logging
+```
+
+
+
