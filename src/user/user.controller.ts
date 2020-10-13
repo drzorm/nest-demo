@@ -1,4 +1,4 @@
-import { DeleteResult, UpdateResult } from 'typeorm';
+import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
 
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
@@ -28,7 +28,7 @@ export class UserController {
   }
 
   @Post()
-  createUser(@Body() body: CreateUserDto): Promise<User> {
+  createUser(@Body() body: CreateUserDto): Promise<InsertResult> {
     return this.userService.create(body);
   }
 

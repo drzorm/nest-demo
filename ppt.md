@@ -4,11 +4,11 @@
 
 ### 介绍
 
-Nest 是一个用于构建高效，可扩展的 Node.js 服务器端应用程序的框架, 基于 TypeScript 开发的, 对 TypeScrpt 支持非常好。
+Nest 是一个用于构建高效，可扩展的 Node.js 服务器端应用程序的框架, 基于 TypeScript 开发的, 完美支持 TypeScrpt。
 
-Nest 是基于[装饰器(decorators)](https://github.com/tc39/proposal-decorators)语言特性而创建的。 这个既是优点也是缺点, 优点是通过装饰器对常用代码抽象后, 代码更加简洁; 缺点就是装饰器语法提案还没有定案, 如果装饰器语法有变动, Nest框架可能也要重写。
+Nest 是基于[装饰器(decorators)](https://github.com/tc39/proposal-decorators)语言特性而创建的。 这个既是优点也是缺点, 优点是通过装饰器对常用代码抽象后, 代码非常简洁; 缺点就是装饰器语法提案还没有定案, 如果装饰器语法有变动, Nest框架可能也要重写。
 
-Nest 框架底层 HTTP 平台支持：Express 和 Fastify, 默认是基于 Express 实现的。Nest 在这些框架之上提供了一定程度的抽象，同时也将其 API 直接暴露给开发人员。这样可以轻松使用基于 Express 开发的第三方模块。
+Nest 框架底层 HTTP 平台支持：Express 和 Fastify, 默认是基于 Express 实现的。Nest 在这些框架之上提供了一定程度的抽象，同时也将其 API 直接暴露给开发人员。可以使用 Express 的所有中间件。
 
 ### 环境
 
@@ -72,6 +72,18 @@ nest g s user
 
 ![Modules](https://docs.nestjs.com/assets/Modules_1.png)
 
+
+```ts
+// 定义一个 module，在 imports 中可以注入其他模块，在 prividers 注入相应的在控制器中需要用到的 service，在 controllers 中注入需要的 controller
+@Module({
+  imports: [TypeOrmModule.forFeature([User]), otherModule],
+  providers: [UserService],
+  controllers: [UserController],
+})
+
+export class UserModule {}
+```
+
 ```bash
 # 使用 CLI 快速创建 modules
 nest g modules user
@@ -85,7 +97,7 @@ nest g mo user
 
 中间件是在路由处理程序 之前 调用的函数。 中间件函数可以访问请求和响应对象，以及应用程序请求响应周期中的 next() 中间件函数。 next() 中间件函数通常由名为 next 的变量表示。
 
-Nest 中间件实际上等价于 Express 中间件。
+Nest 的中间件跟 Express 的中间件一模一样, 在 Nest 项目中可以直接使用 Express 中的中间件。
 
 中间件函数可以执行以下任务:
 
@@ -107,7 +119,7 @@ nest g mi logger
 
 ## 异常过滤器(Exception filters)
 
-内置的异常层负责处理整个应用程序中的所有抛出的异常。当捕获到未处理的异常时，最终用户将收到友好的响应。
+异常过滤器可以捕获在后端接受处理任何阶段所跑出的异常，捕获到异常后，然后返回处理过的异常结果给客户端（比如返回错误码，错误提示信息等等）。
 
 ![Exception filters](https://docs.nestjs.com/assets/Filter_1.png)
 
@@ -126,10 +138,10 @@ nest g f http-exception
 
 ![Pipes](https://docs.nestjs.com/assets/Pipe_1.png)
 
-管道有两个类型:
+管道有两个形式:
 
-* 转换：管道将输入数据转换为所需的数据输出
-* 验证：对输入数据进行验证，如果验证成功继续传递; 验证失败则抛出异常;
+* 转换数据：管道将输入数据转换为所需的数据输出
+* 验证数据：对输入数据进行验证，如果验证成功继续传递; 验证失败则抛出异常;
 
 在这两种情况下, 管道 参数(arguments) 会由 控制器(controllers)的路由处理程序 进行处理. Nest 会在调用这个方法之前插入一个管道，管道会先拦截方法的调用参数,进行转换或是验证处理，然后用转换好或是验证好的参数调用原方法
 
@@ -163,7 +175,7 @@ nest g gu auth
 
 ![Interceptors](https://docs.nestjs.com/assets/Interceptors_1.png)
 
-拦截器具有一系列有用的功能，这些功能受面向切面编程（AOP）技术的启发。它们可以：
+拦截器具有一系列有用的功能：
 
 * 在函数执行之前/之后绑定额外的逻辑
 * 转换从函数返回的结果
@@ -263,7 +275,9 @@ yarn add sqlite3 typeorm @nestjs/typeorm
 })
 ```
 
-3. 创建表实体
+3. 创建实体
+
+> 在 typeORM 中数据库的表对应的就是一个类，通过定义一个类来创建实体。实体（Entity）是一个映射到数据库表的类，通过@Entity()来标记。
 
 ```ts
 // user.entity.ts
