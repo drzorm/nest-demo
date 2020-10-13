@@ -1,4 +1,4 @@
-import { DeleteResult, UpdateResult } from 'typeorm';
+import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
 
 import { Injectable } from '@nestjs/common';
 
@@ -16,8 +16,8 @@ export class UserService {
     return result;
   }
 
-  async create(user: CreateUserDto): Promise<User> {
-    return await User.create(user);
+  async create(user: CreateUserDto): Promise<InsertResult> {
+    return await User.insert(user);
   }
 
   async update(user: User): Promise<UpdateResult> {

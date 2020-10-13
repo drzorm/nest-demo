@@ -13,32 +13,32 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
-  async getUsers(): Promise<User[]> {
+  getUsers(): Promise<User[]> {
     return this.userService.findAll();
   }
 
   // @Get('query')
-  // async getUserByQuery(@Query('id') id: number): Promise<User[]> {
+  // getUserByQuery(@Query('id') id: number): Promise<User[]> {
   //   return this.userService.find(id);
   // }
 
   @Get(':id')
-  async getUser(@Param('id') id: number): Promise<User> {
+  getUser(@Param('id') id: number): Promise<User> {
     return this.userService.find(id);
   }
 
   @Post()
-  async createUser(@Body() body: CreateUserDto): Promise<User> {
+  createUser(@Body() body: CreateUserDto): Promise<User> {
     return this.userService.create(body);
   }
 
   @Put(':id')
-  async updateUser(@Param('id') id: number, @Body() body: any): Promise<UpdateResult> {
+  updateUser(@Param('id') id: number, @Body() body: any): Promise<UpdateResult> {
     return this.userService.update({ id, ...body });
   }
 
   @Delete(':id')
-  async deleteUser(@Param('id') id: number): Promise<DeleteResult> {
+  deleteUser(@Param('id') id: number): Promise<DeleteResult> {
     return this.userService.delete(id);
   }
 }

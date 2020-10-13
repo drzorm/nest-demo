@@ -203,5 +203,158 @@ nest g gu logging
 | sub-app | app |
 | resource | res |
 
+---
 
+## 简单的CURD示例
+
+>
+
+1. 创建并启动项目[(git项目地址)](http://git.rongsitech.com:8002/zhangbl/nestjs-demo)
+
+```bash
+# 通过脚手架全局安装 cli
+yarn global add @nestjs/cli
+
+# 通过 cli 创建项目
+nest new nest-demo
+
+# 安装依赖
+yarn
+
+# 启动项目
+yarn start
+```
+
+2. 创建 user 模块文件
+
+```bash
+# 创建 user.module.ts
+# 通过 cli 创建 user.module.ts, 程序会自动在 app.module.ts 中导入 UserModule,
+nest g mo user
+
+# 创建 user.controller.ts
+nest g co user
+
+# 创建 user.service.ts
+nest g s user
+
+```
+
+2. 安装数据库相关依赖, 为了方便快速演示, 数据库使用了 [SQLite](https://www.sqlite.org/download.html) + [TypeORM](https://github.com/typeorm/typeorm#readme)
+
+```bash
+# 安装数据库相关依赖
+yarn add sqlite3 typeorm @nestjs/typeorm
+```
+
+```ts
+// 在 app.module.ts 中导入 typeOrmModule
+// 需要在项目根目录下创建 db.sqlite 数据库文件
+@Module({
+  imports: [
+    TypeOrmModule.forRoot({
+      type: 'sqlite',
+      database: 'db.sqlite',
+      synchronize: true,
+      logging: true,
+      entities: [`${__dirname}/**/*.entity.{js,ts}`]
+    })
+  ]
+})
+```
+
+3. 创建表实体
+
+```ts
+// user.entity.ts
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+
+@Entity()
+export class User extends BaseEntity {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
+  name: string;
+
+  @Column()
+  age: number;
+}
+```
+
+4. 完善service
+
+```ts
+// user.service.ts
+import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
+
+import { Injectable } from '@nestjs/common';
+
+import { CreateUserDto, UpdateUserDto } from './user.dto';
+import { User } from './user.entity';
+
+@Injectable()
+export class UserService {
+  async create(user: CreateUserDto): Promise<InsertResult> {
+    return await User.insert(user);
+  }
+
+  async delete(id: number): Promise<DeleteResult> {
+    return await User.delete(id);
+  }
+
+  async update(user: UpdateUserDto): Promise<UpdateResult> {
+    return await User.update(user.id, user);
+  }
+
+  async find(id: number): Promise<User> {
+    return await User.findOne({ id });
+  }
+
+  async findAll(): Promise<User[]> {
+    return await User.find();
+  }
+}
+```
+
+5. 完善controller
+
+```ts
+// user.controller.ts
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+
+import { CreateUserDto, UpdateUserDto } from './user.dto';
+import { User } from './user.entity';
+import { UserService } from './user.service';
+
+@Controller('user')
+export class UserController {
+  constructor(private readonly userService: UserService) {}
+
+  @Post()
+  createUser(@Body() user: CreateUserDto) {
+    return this.userService.create(user);
+  }
+
+  @Delete(':id')
+  deleteUser(@Param('id') id: number) {
+    return this.userService.delete(id);
+  }
+
+  @Put(':id')
+  updateUser(@Param('id') id: number, @Body() user: UpdateUserDto) {
+    return this.userService.update({ id, ...user });
+  }
+
+  @Get(':id')
+  getUser(@Param('id') id: number): Promise<User> {
+    return this.userService.find(id);
+  }
+
+  @Get()
+  getUsers(): Promise<User[]> {
+    return this.userService.findAll();
+  }
+}
+```
 
