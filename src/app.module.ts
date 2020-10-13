@@ -14,7 +14,7 @@ ConfigModule.forRoot({
   imports: [
     TypeOrmModule.forRoot({
       type: 'sqlite',
-      database: 'database.sqlite',
+      database: 'db.sqlite',
       synchronize: true,
       logging: true,
       entities: [`${__dirname}/**/*.entity.{js,ts}`],
@@ -24,6 +24,7 @@ ConfigModule.forRoot({
     ConfigModule,
     UserModule,
   ],
+
   controllers: [AppController],
   providers: [AppService],
 })

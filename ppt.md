@@ -179,5 +179,29 @@ nest g interceptor logging
 nest g gu logging
 ```
 
+## nest generate alias
+
+| name | alias |
+| ---- | ---- |
+| application | application |
+| class | cl |
+| configuration | config |
+| <b>controller</b> | co |
+| decorator | d |
+| <b>filter</b> | f |
+| gateway | ga |
+| <b>guard</b> | gu |
+| <b>interceptor</b> | in |
+| interface | interface |
+| <b>middleware</b> | mi |
+| <b>module</b> | mo |
+| <b>pipe</b> | pi |
+| provider | pr |
+| resolver | r |
+| <b>service</b> | s |
+| library | lib |
+| sub-app | app |
+| resource | res |
+
 
 
